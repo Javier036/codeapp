@@ -1,4 +1,7 @@
+// ignore_for_file: prefer_is_empty
+
 import 'package:codeapp/pages/home_screen.dart';
+import 'package:codeapp/pages/register.dart';
 import 'package:flutter/material.dart';
 
 class Home extends StatefulWidget {
@@ -8,10 +11,16 @@ class Home extends StatefulWidget {
   State<Home> createState() => _HomeState();
 }
 
+TextEditingController _correo = TextEditingController();
+TextEditingController _contrasena = TextEditingController();
+
+final _claveFormulario = GlobalKey<FormState>();
+
 class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Material(
+      // ignore: sized_box_for_whitespace
       child: Container(
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height,
@@ -20,18 +29,18 @@ class _HomeState extends State<Home> {
             children: [
               Container(
                 width: MediaQuery.of(context).size.width,
-                height: MediaQuery.of(context).size.height / 1.6,
+                height: MediaQuery.of(context).size.height / 2.4,
                 decoration: const BoxDecoration(
                   color: Colors.white,
                 ),
               ),
               Container(
                 width: MediaQuery.of(context).size.width,
-                height: MediaQuery.of(context).size.height / 1.6,
+                height: MediaQuery.of(context).size.height / 2.4,
                 decoration: const BoxDecoration(
                   color: Color(0XFF674AEF),
                   borderRadius:
-                      BorderRadius.only(bottomRight: Radius.circular(70)),
+                      BorderRadius.only(bottomRight: Radius.circular(60)),
                 ),
                 child: Center(
                     child: Image.asset(
@@ -45,7 +54,7 @@ class _HomeState extends State<Home> {
             alignment: Alignment.bottomCenter,
             child: Container(
               width: MediaQuery.of(context).size.width,
-              height: MediaQuery.of(context).size.height / 2.66,
+              height: MediaQuery.of(context).size.height / 1.66,
               decoration: const BoxDecoration(
                 color: Color(0XFF674AEF),
               ),
@@ -55,8 +64,8 @@ class _HomeState extends State<Home> {
             alignment: Alignment.bottomCenter,
             child: Container(
               width: MediaQuery.of(context).size.width,
-              height: MediaQuery.of(context).size.height / 2.666,
-              padding: const EdgeInsets.only(top: 40, bottom: 30),
+              height: MediaQuery.of(context).size.height / 1.666,
+              padding: const EdgeInsets.only(top: 30, bottom: 30),
               decoration: const BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.only(
@@ -66,7 +75,7 @@ class _HomeState extends State<Home> {
               child: Column(
                 children: [
                   const Text(
-                    "Hola Mundo",
+                    "Iniciar Sesión",
                     style: TextStyle(
                       fontSize: 25,
                       fontWeight: FontWeight.w600,
@@ -74,32 +83,49 @@ class _HomeState extends State<Home> {
                       wordSpacing: 2,
                     ),
                   ),
-                  const SizedBox(height: 15),
+                  const SizedBox(height: 1),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 40),
-                    child: Text(
-                      "CTM AURELIO",
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                          fontSize: 17, color: Colors.black.withOpacity(0.6)),
+                    child: Form(
+                      key: _claveFormulario,
+                      child: Column(
+                        children: <Widget>[_formCorreo(), _formContrasena()],
+                      ),
                     ),
                   ),
-                  const SizedBox(height: 60),
+                  const SizedBox(height: 10),
+                  const Text('No tienes una cuenta?'),
+                  TextButton(
+                    style: TextButton.styleFrom(
+                      textStyle: const TextStyle(fontSize: 20),
+                    ),
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const RegisterPage(),
+                          ));
+                    },
+                    child: const Text('Registrate'),
+                  ),
+                  const SizedBox(height: 20),
                   Material(
                     color: const Color(0XFF674AEF),
                     borderRadius: BorderRadius.circular(10),
-                    child: InkWell(
-                      onTap: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => HomePage(),
-                            ));
+                    child: TextButton(
+                      onPressed: () {
+                        if (_claveFormulario.currentState!.validate()) {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => HomePage(),
+                              ));
+                        }
                       },
                       child: Container(
-                        padding:
-                            EdgeInsets.symmetric(vertical: 15, horizontal: 80),
-                        child: Text(
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 15, horizontal: 80),
+                        child: const Text(
                           "Iniciar",
                           style: TextStyle(
                             color: Colors.white,
@@ -117,6 +143,54 @@ class _HomeState extends State<Home> {
           ),
         ]),
       ),
+    );
+  }
+
+  Widget _formCorreo() {
+    return Form(
+      child: Column(children: [
+        TextFormField(
+            keyboardType: TextInputType.text,
+            validator: (value) {
+              if (value!.isEmpty) {
+                return 'Escribe tu correo';
+              }
+              if (value.length < 1) {
+                // ignore: avoid_print
+                return 'caracteres son cortos';
+              }
+              return null;
+            },
+            controller: _correo,
+            decoration: const InputDecoration(
+              hintText: 'Ingresa tu correo',
+              labelText: "Correo electronico",
+            )),
+      ]),
+    );
+  }
+
+  Widget _formContrasena() {
+    return Form(
+      child: Column(children: [
+        TextFormField(
+            keyboardType: TextInputType.text,
+            validator: (value) {
+              if (value!.isEmpty) {
+                return 'Escribe tu contraseña';
+              }
+              if (value.length < 1) {
+                // ignore: avoid_print
+                print('La caracteres son cortos');
+              }
+              return null;
+            },
+            controller: _contrasena,
+            decoration: const InputDecoration(
+              hintText: 'Ingresa tu contraseña',
+              labelText: "Contraseña",
+            )),
+      ]),
     );
   }
 }

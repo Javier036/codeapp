@@ -1,6 +1,8 @@
 import 'package:codeapp/pages/course_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:text_divider/text_divider.dart';
 
+// ignore: must_be_immutable, use_key_in_widget_constructors
 class HomePage extends StatelessWidget {
   //const HomePage({super.key});
 
@@ -13,7 +15,7 @@ class HomePage extends StatelessWidget {
     'Premium',
   ];
 
-  List<Color> catColors = [
+  List<Color> catColors = const [
     Color(0XFFFFCF2F),
     Color(0XFF6FE08D),
     Color(0XFF61BDFD),
@@ -22,7 +24,7 @@ class HomePage extends StatelessWidget {
     Color(0XFF78E667),
   ];
 
-  List<Icon> catIcons = [
+  List<Icon> catIcons = const [
     Icon(Icons.category, color: Colors.white, size: 30),
     Icon(Icons.web, color: Colors.white, size: 30),
     Icon(Icons.ad_units, color: Colors.white, size: 30),
@@ -46,7 +48,16 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: _drawer(context),
+      appBar: AppBar(
+        title: const Text(
+          'CodeApp',
+          style: TextStyle(color: Color.fromARGB(255, 231, 229, 240)),
+        ),
+        backgroundColor: const Color(0XFF674AEF),
+      ),
       body: ListView(
+        padding: EdgeInsets.zero,
         children: [
           Container(
             padding:
@@ -61,26 +72,14 @@ class HomePage extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Row(
+                const Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Icon(
-                      Icons.dashboard,
-                      size: 30,
-                      color: Colors.white,
-                    ),
-                    Icon(
-                      Icons.notifications,
-                      size: 30,
-                      color: Colors.white,
-                    ),
-                  ],
                 ),
-                SizedBox(height: 20),
-                Padding(
+                const SizedBox(height: 20),
+                const Padding(
                   padding: EdgeInsets.only(left: 3, bottom: 15),
                   child: Text(
-                    "Hola Programador",
+                    "Hola Hector",
                     style: TextStyle(
                       fontSize: 25,
                       fontWeight: FontWeight.w600,
@@ -116,14 +115,14 @@ class HomePage extends StatelessWidget {
             ),
           ),
           Padding(
-            padding: EdgeInsets.only(top: 20, left: 15, right: 15),
+            padding: const EdgeInsets.only(top: 20, left: 15, right: 15),
             child: Column(
               children: [
                 GridView.builder(
                   itemCount: catNames.length,
                   shrinkWrap: true,
-                  physics: NeverScrollableScrollPhysics(),
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  physics: const NeverScrollableScrollPhysics(),
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 3,
                     childAspectRatio: 1.1,
                   ),
@@ -141,7 +140,7 @@ class HomePage extends StatelessWidget {
                             child: catIcons[index],
                           ),
                         ),
-                        SizedBox(height: 10),
+                        const SizedBox(height: 10),
                         Text(
                           catNames[index],
                           style: TextStyle(
@@ -154,7 +153,7 @@ class HomePage extends StatelessWidget {
                     );
                   },
                 ),
-                Row(
+                const Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
@@ -174,44 +173,46 @@ class HomePage extends StatelessWidget {
                     ),
                   ],
                 ),
-                SizedBox(height: 10),
+                const SizedBox(height: 8),
                 GridView.builder(
                   itemCount: imgList.length,
                   shrinkWrap: true,
-                  physics: NeverScrollableScrollPhysics(),
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  physics: const NeverScrollableScrollPhysics(),
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 2,
-                    childAspectRatio:
-                        (MediaQuery.of(context).size.height - 50 - 25) /
-                            (4 * 240),
-                    mainAxisSpacing: 10,
-                    crossAxisSpacing: 10,
+                    childAspectRatio: (0.7),
+                    mainAxisSpacing: 8,
+                    crossAxisSpacing: 8,
                   ),
                   itemBuilder: (context, index) {
                     return InkWell(
                       onTap: () {
-                        Navigator.push(context, MaterialPageRoute(
-                          builder: (context) => CourseScreen(imgList[index]),
-                          ));
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) =>
+                                  CourseScreen(imgList[index]),
+                            ));
                       },
                       child: Container(
-                        padding:
-                            EdgeInsets.symmetric(vertical: 20, horizontal: 10),
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 20, horizontal: 10),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(20),
-                          color: Color(0XFFF5F3FF),
+                          color: const Color(0XFFF5F3FF),
                         ),
                         child: Column(
+                          mainAxisSize: MainAxisSize.min,
                           children: [
                             Padding(
-                              padding: EdgeInsets.all(10),
+                              padding: const EdgeInsets.all(10),
                               child: Image.asset(
                                 "images/${imgList[index]}.png",
                                 width: 100,
                                 height: 100,
                               ),
                             ),
-                            SizedBox(height: 10),
+                            const SizedBox(height: 10),
                             Text(
                               imgList[index],
                               style: TextStyle(
@@ -220,7 +221,7 @@ class HomePage extends StatelessWidget {
                                 color: Colors.black.withOpacity(0.6),
                               ),
                             ),
-                            SizedBox(height: 10),
+                            const SizedBox(height: 10),
                             Text(
                               "10 videos",
                               style: TextStyle(
@@ -243,14 +244,80 @@ class HomePage extends StatelessWidget {
       bottomNavigationBar: BottomNavigationBar(
         showSelectedLabels: true,
         iconSize: 32,
-        selectedItemColor: Color(0XFF674AEF),
+        selectedItemColor: const Color(0XFF674AEF),
         selectedFontSize: 18,
         unselectedItemColor: Colors.grey,
-        items: [
+        items: const [
           BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
-          BottomNavigationBarItem(icon: Icon(Icons.assessment), label: 'Cursos'),
-          BottomNavigationBarItem(icon: Icon(Icons.favorite), label: 'Wishlist'),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.assessment), label: 'Cursos'),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.favorite), label: 'Favoritos'),
           BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Account'),
+        ],
+      ),
+    );
+  }
+
+  Widget _drawer(context) {
+    return Drawer(
+      child: ListView(
+        children: [
+          UserAccountsDrawerHeader(
+              accountName: const Text('Hector'),
+              accountEmail: const Text('Hector@gmail.com'),
+              currentAccountPicture: CircleAvatar(
+                child: Image.network(
+                  'https://www.pngmart.com/files/22/User-Avatar-Profile-PNG.png',
+                  width: 50,
+                  height: 50,
+                  fit: BoxFit.cover,
+                ),
+              )),
+          const TextDivider(text: Text('Categorias')),
+          ListTile(
+            leading: const Icon(Icons.laptop_windows),
+            title: const Text('Windows'),
+            // ignore: avoid_print, avoid_returning_null_for_void
+            onTap: () => null,
+          ),
+          ListTile(
+            leading: const Icon(Icons.web),
+            title: const Text('Web'),
+            // ignore: avoid_print, avoid_returning_null_for_void
+            onTap: () => null,
+          ),
+          ListTile(
+            leading: const Icon(Icons.phone_android),
+            title: const Text('Movil'),
+            // ignore: avoid_print, avoid_returning_null_for_void
+            onTap: () => null,
+          ),
+          const TextDivider(text: Text('Opciones')),
+          ListTile(
+            leading: const Icon(Icons.info),
+            title: const Text('Acerca de'),
+            // ignore: avoid_print, avoid_returning_null_for_void
+            onTap: () => null,
+          ),
+          ListTile(
+            leading: const Icon(Icons.settings),
+            title: const Text('Ajustes'),
+            // ignore: avoid_print, avoid_returning_null_for_void
+            onTap: () => null,
+          ),
+          ListTile(
+            leading: const Icon(Icons.monetization_on),
+            title: const Text('Hazte Premium'),
+            // ignore: avoid_print, avoid_returning_null_for_void
+            onTap: () => null,
+          ),
+          ListTile(
+            leading: const Icon(Icons.exit_to_app),
+            title: const Text('Salir'),
+            // ignore: avoid_print, avoid_returning_null_for_void
+            onTap: () => null,
+          ),
         ],
       ),
     );
